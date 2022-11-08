@@ -5,13 +5,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-public class Cozinha {
+public class Estado {
 
 	@EqualsAndHashCode.Include
 	@Id
@@ -20,4 +21,5 @@ public class Cozinha {
 	
 	@Column(nullable = false)
 	private String nome;
+	
 }
