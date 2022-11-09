@@ -101,6 +101,7 @@ public class RestauranteController {
 		return atualizar(restauranteId, restauranteAtual);
 	}
 
+	@SuppressWarnings("null")
 	private void merge(Map<String, Object> dadosOrigem, Restaurante restauranteDestino) {
 		ObjectMapper objectMapper = new ObjectMapper();
 		Restaurante restauranteOrigem = objectMapper.convertValue(dadosOrigem, Restaurante.class);
