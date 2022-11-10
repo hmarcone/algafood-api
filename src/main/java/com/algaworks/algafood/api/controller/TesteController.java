@@ -74,11 +74,28 @@ public class TesteController {
 		return restauranteRepository.countByCozinhaId(cozinhaId);
 	}
 	
+//	@GetMapping("/restaurantes/com-frete-gratis")
+//	public List<Restaurante> restaurantesComFreteGratis(String nome) {
+//		var comFreteGratis = new RestauranteComFreteGratisSpec();
+//		var comNomeSemelhante = new RestauranteComNomeSemelhanteSpec(nome);
+//		
+//		return restauranteRepository.findAll(comFreteGratis.and(comNomeSemelhante));
+//	}	
+	
+//	@GetMapping("/restaurantes/com-frete-gratis")
+//	public List<Restaurante> restaurantesComFreteGratis(String nome) {
+//		
+//		return restauranteRepository.findAll(comFreteGratis()
+//				.and(comNomeSemelhante(nome)));
+//	}	
+	
 	@GetMapping("/restaurantes/com-frete-gratis")
 	public List<Restaurante> restaurantesComFreteGratis(String nome) {
-		var comFreteGratis = new RestauranteComFreteGratisSpec();
-		var comNomeSemelhante = new RestauranteComNomeSemelhanteSpec(nome);
-		
-		return restauranteRepository.findAll(comFreteGratis.and(comNomeSemelhante));
+		return restauranteRepository.findComFreteGratis(nome);
+	}
+	
+	@GetMapping("/restaurantes/primeiro")
+	public Optional<Restaurante> restaurantePrimeiro() {
+		return restauranteRepository.buscarPrimeiro();
 	}	
 }
