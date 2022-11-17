@@ -10,6 +10,8 @@ import javax.persistence.ManyToOne;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -27,5 +29,4 @@ public class Cidade {
 	@ManyToOne
 	@JoinColumn(nullable = false)
 	private Estado estado;
-
 }
