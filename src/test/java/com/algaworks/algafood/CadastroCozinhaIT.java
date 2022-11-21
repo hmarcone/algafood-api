@@ -42,13 +42,25 @@ public class CadastroCozinhaIT {
 	}
 
 	@Test
-	public void deveConter4Cozinhas_QuandoConsultarCozinhas() {
+	public void testRetornarStatus201_QuandoCadastrarCozinha() {
+		given()
+			.body("{ \"nome\": \"Chinesa\" }")
+			.contentType(ContentType.JSON)
+			.accept(ContentType.JSON)
+		.when()
+			.post()
+		.then()
+			.statusCode(HttpStatus.CREATED.value());
+	}	
+	
+	@Test
+	public void deveConter5Cozinhas_QuandoConsultarCozinhas() {
 		given()
 			.accept(ContentType.JSON)
 		.when()
 			.get()
 		.then()
-			.body("", hasSize(4));
+			.body("", hasSize(5));
 	}
 	
 	@Test
@@ -61,5 +73,5 @@ public class CadastroCozinhaIT {
 			.get()
 		.then()
 			.body("nome", hasItems("Indiana", "Tailandesa"));
-	}		
+	}			
 }
