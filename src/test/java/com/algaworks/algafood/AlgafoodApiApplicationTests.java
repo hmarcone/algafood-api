@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 import javax.validation.ConstraintViolationException;
 
 import org.junit.Rule;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.rules.ExpectedException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,17 +50,16 @@ class AlgafoodApiApplicationTests {
         assertEquals(2, 1 + 1);
     }	
 	
-//	@Test(expected = ConstraintViolationException.class)
 	@Test
 	public void testarCadastroCozinhaSemNome() {
-	
 		Cozinha novaCozinha = new Cozinha();
 		novaCozinha.setNome(null);
-		
-		novaCozinha = cadastroCozinha.salvar(novaCozinha);
-		
-		thrown.expect(NullPointerException.class);
-        throw new NullPointerException();
-		
-	}	
+
+		ConstraintViolationException erroEsperado =
+				Assertions.assertThrows(ConstraintViolationException.class, () -> {
+					cadastroCozinha.salvar(novaCozinha);
+				});
+
+		assertThat(erroEsperado).isNotNull();
+	}
 }
