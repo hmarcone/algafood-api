@@ -1,6 +1,7 @@
 package com.algaworks.algafood;
 
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 
 import org.junit.Before;
@@ -66,30 +67,6 @@ public class CadastroCozinhaIT {
 		.then()
 			.body("", hasSize(2));
 	}
-
-	@Test
-	public void deveConterCozinhaIndiana_QuandoCadastrarCozinha() {
-		given()
-			.body("{ \"nome\": \"Indiana\" }")
-			.contentType(ContentType.JSON)
-			.accept(ContentType.JSON)
-		.when()
-			.post()
-		.then()
-			.statusCode(HttpStatus.CREATED.value());
-	}
-	
-	@Test
-	public void deveConterCozinhaTailandesa_QuandoConsultarCozinhas() {	
-		given()
-			.basePath("/cozinhas")
-			.port(port)
-			.accept(ContentType.JSON)
-		.when()
-			.get()
-		.then()
-			.body("nome", hasItems("Indiana", "Tailandesa"));
-	}
 	
 	@Test
 	public void deveRetornarStatus201_QuandoCadastrarCozinha() {
@@ -103,6 +80,54 @@ public class CadastroCozinhaIT {
 			.statusCode(HttpStatus.CREATED.value());
 	}
 	
+	@Test
+	public void deveConterCozinhaIndiana_QuandoCadastrarCozinha() {
+		given()
+			.body("{ \"nome\": \"Indiana\" }")
+			.contentType(ContentType.JSON)
+			.accept(ContentType.JSON)
+		.when()
+			.post()
+		.then()
+			.statusCode(HttpStatus.CREATED.value());
+	}
+	
+	@Test
+	public void deveRetornarRespostaEStatusCorretos_QuandoConsultarCozinhaExistente() {
+		given()
+			.pathParam("cozinhaId", 2)
+			.accept(ContentType.JSON)
+		.when()
+			.get("/{cozinhaId}")
+		.then()
+			.statusCode(HttpStatus.OK.value())
+			.body("nome", equalTo("Americana"));
+	}
+	
+	@Test
+	public void deveRetornarStatus404_QuandoConsultarCozinhaInexistente() {
+		given()
+			.pathParam("cozinhaId", 100)
+			.accept(ContentType.JSON)
+		.when()
+			.get("/{cozinhaId}")
+		.then()
+			.statusCode(HttpStatus.NOT_FOUND.value());
+	}
+	
+	@Test
+	public void deveConterCozinhaTailandesa_QuandoConsultarCozinhas() {	
+		given()
+			.basePath("/cozinhas")
+			.port(port)
+			.accept(ContentType.JSON)
+		.when()
+			.get()
+		.then()
+			//.body("nome", hasItems("Indiana", "Tailandesa"));
+			.body("nome", hasItems("Tailandesa"));
+	}
+		
 	private void prepararDados() {
 		Cozinha cozinha1 = new Cozinha();
 		cozinha1.setNome("Tailandesa");
