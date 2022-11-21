@@ -14,6 +14,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 
+import static org.hamcrest.Matchers.hasItems;
+
 @SuppressWarnings("deprecation")
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -48,4 +50,16 @@ public class CadastroCozinhaIT {
 		.then()
 			.body("", hasSize(4));
 	}
+	
+	@Test
+	public void deveConterCozinhaTailandesa_QuandoConsultarCozinhas() {	
+		given()
+			.basePath("/cozinhas")
+			.port(port)
+			.accept(ContentType.JSON)
+		.when()
+			.get()
+		.then()
+			.body("nome", hasItems("Indiana", "Tailandesa"));
+	}		
 }
